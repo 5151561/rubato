@@ -76,3 +76,20 @@ cd judge && ./gradlew :engine:compileDebugKotlin
 CI 在 `.github/workflows/ci.yml`:`rust` job 跑构建与单测(几分钟),
 `diff` job 跑上面那十八套(要 JDK 21 + Android SDK,裁判的 `:engine` 是
 android-library 模块)。
+
+## 许可
+
+本仓自己写的部分(`rust/`、`tools/`、`fixtures/` 里的手写用例、`judge/` 下的三个
+harness:`:harness` / `:jsharness` / `:wvharness`)按 [MIT](LICENSE) 发布。
+
+**但 `judge/` 里 vendor 来的部分不归 MIT 管,它们保持上游各自的许可:**
+
+| 路径 | 来源 | 上游许可 |
+|---|---|---|
+| `judge/engine/` | [gedoor/legado](https://github.com/gedoor/legado) 的书源引擎 | GPL-3.0 |
+| `judge/rhino/` | 同上(`com.script`,含反编译产物) | GPL-3.0 |
+| `judge/third_party/maven/org/htmlunit/htmlunit-core-js/` | 预编译 jar,来源见同目录 `SOURCE.md` | 见上游(Rhino 系,MPL-2.0) |
+
+这些代码只作差分裁判用,**冻结不开发**。`SOURCE.md` 里提到的
+`app/src/main/assets/licenses/` 随 2026-09-14 移除前端时一并没了,jar 的
+许可与 NOTICE 原文请回上游仓库取。
