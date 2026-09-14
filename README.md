@@ -3,8 +3,6 @@
 精简的网文阅读器**书源引擎**(Rust)。源自 [Legado](https://github.com/gedoor/legado)
 的书源生态,但不承诺与上游持续同步。
 
-> 2026-09-14:本仓只留引擎。此前的 Flutter 前端(`app/`)已移除,仓库不再含界面与端到端判据。
-> `docs/` 下的计划书原样保留,其中涉及 `app/` 的章节**只作历史参考**。
 
 完整计划与技术选型见 **[docs/plan.md](docs/plan.md)**；阅读正文排版重构见
 **[docs/reader-layout-plan.md](docs/reader-layout-plan.md)**；书源引擎与 Legado 的
