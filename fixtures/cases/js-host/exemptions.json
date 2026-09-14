@@ -1,0 +1,49 @@
+[
+ {
+  "_说明": "本套的豁免有两类:**被测侧是超集**(裁判报错、我们跑得出,含语料 0 处的 Rhino 独有语言面),以及 **裁判环境差**(裁判跑在 JVM 上、真身跑在 Android 上,同一份代码走的是两套 JCE provider ——这一档不是欠账也不是超集,是**这一位在这台裁判上问不出真身的答案**;判被测侧照 Android 的行为)。判定口径写在每条 reason 里,并且都带了一个可复算的数字 —— 语料 1704 源里有几个源真的这么写。剩下的差异一律是欠账,记在 fixtures/diff-baseline.json,不在这里。 **本套曾有一条『裁判不合规范』的豁免(js-corpus-ff6d88b7c0,完成值口径),它是错判**:规范 §16.1.7 的 UpdateEmpty 说空完成值留用上一条,Rhino 与 V8 都照办,不照办的是 quickjs-ng。那是**被测侧的欠账**,已由 js-host/src/dialect.rs 的分段求值补上,豁免随之作废 —— 「豁免也会过期,每轮回头问一遍它今天还成立吗」。"
+ },
+ {
+  "id": "js-dialect-es-class",
+  "reason": "**被测侧是超集**:`class` 在 Rhino(htmlunit-core-js 5.3.0)是 SyntaxError,quickjs-ng 支持。复刻裁判等于**主动把能力删掉** —— 书源只会因此更跑不动,不会更跑得动。语料 1704 源里写 `class` 的:**0 个**。代价写清楚:书源若把 `class` 写在 try/catch 里靠报错走回退分支,两侧会分岔;语料里没有这种写法。"
+ },
+ {
+  "id": "js-dialect-es-spread-syntax",
+  "reason": "同上,展开语法 `...`:Rhino 抛 host:ScriptException,quickjs-ng 支持。语料里 **2 个源**用它 —— 这 2 个源在 legado 上跑不动而在 Rubato 上跑得动,是**往好里差**。"
+ },
+ {
+  "id": "js-dialect-regex-identity-escape-p",
+  "reason": "同上,正则字面量里的 `\\p`:不带 `u` 标志时 Annex B 允许「转义了但没有含义」的恒等转义,quickjs-ng 放行,而 Rhino 把 `\\p`/`\\P` 留给 Unicode 属性转义、直接 SyntaxError。对照组 `-q`(`\\q`)两侧都 PASS,说明分歧只在 `p` 这一个字母上。语料里 **2 个源**用它(`/\\<|\\/|\\p|\\>/g` 这种清洗正则)。`pipeline-corpus-b` 的 pb02108 是同一件事在四步上的投影,那边也豁免。"
+ },
+ {
+  "id": "js-corpus-ae2bae4e9a",
+  "reason": "**被测侧是超集**(Java 方法重载歧义):`java.timeFormat(result+\"000\")` 在 Rhino 那边 `timeFormat(Long)` 与 `timeFormat(String, …)` 之间挑不出来,抛 EvaluatorException → js:SyntaxError;被测侧按 **arity** 分派,跑通了。复刻裁判要在 java_proxy 里造一套「重载歧义」的假报错 —— 那是把 bug 也复刻一遍,且会让这个源在 Rubato 上也失效。"
+ },
+ {
+  "id": "js-corpus-cc0ae18283",
+  "reason": "同 js-corpus-ae2bae4e9a(`java.timeFormat(result*1000)`,同一个重载歧义)。"
+ },
+ {
+  "id": "js-dialect-rhino-for-each",
+  "reason": "**Rhino 独有的语言面**,被测侧不支持:`for each (var v in [1,2])` 是 JavaScript 1.6 的扩展,规范与 quickjs-ng 都没有。这一条与上面几条方向相反 —— 它是真缺口,不是超集。之所以豁免而不是记欠账:语料 1704 源里用它的 **0 个**,而补它要在求值前做语法改写(dialect.rs 那条路),收益为零、风险不为零。**这条探针留着**:哪天语料里出现 `for each`,它会立刻变成要还的账。"
+ },
+ {
+  "id": "js-dialect-rhino-e4x-typeof",
+  "reason": "同上,E4X(`typeof XML === \"function\"`):Rhino 带 E4X,quickjs-ng 没有。语料 **0 个源**。真要接等于引一份 XML 字面量实现,与收益完全不成比例。"
+ },
+ {
+  "id": "js-hut-aes-full-transformation",
+  "reason": "**裁判环境差(不是欠账,也不是被测侧多做)**:hutool 5.8.22 的 `KeyUtil.generateKey(algorithm, key)` 在非 PBE / 非 DES 分支上把**整条 transformation 当算法名**塞进 `SecretKeySpec`(字节码可查:`new SecretKeySpec(key, algorithm)`,没有 `getMainAlgorithm`)。于是密钥的 `getAlgorithm()` 是 `AES/CBC/PKCS5Padding` —— **SunJCE 的 AESCipher 查这个名字**、拒收(`InvalidKeyException: Wrong algorithm: AES or Rijndael required` → hutool 包成 CryptoException),而 **Android 的 Conscrypt 只查密钥长度**、照跑。所以裁判在 JVM 上报错、真身在手机上出结果。语料 1704 源里 **17 个源**就是这么写的(`java.aes*` + `AES/CBC/PKCS5Padding` 一族);复刻裁判等于让这 17 个源在 Rubato 上也失效,而且失效的理由在真身上根本不存在。被测侧照 Android 的行为放行。DES / DESede 那条路**不受影响**(hutool 的 DES 分支走 `SecretKeyFactory` + `getMainAlgorithm`),故同族的 `js-hut-ecb-iv-des` 不豁免、照比。"
+ },
+ {
+  "id": "js-corpus-e1d3254e62",
+  "reason": "同 `js-hut-aes-full-transformation`(**裁判环境差**):这条真书源写的是 `java.aesBase64DecodeToString(result, '6CE93717FBEA3E4F', 'AES/CBC/NoPadding', …)`,整条 transformation 被 hutool 当算法名塞进 SecretKeySpec → 裁判(SunJCE)在 `Cipher.init` 就拒收,而 Android 的 Conscrypt 只查密钥长度、照跑到底(把 AES 换成 DESede 的同形一条两侧都给空串,探针 `js-hut-*` 那一组)。**这条从前是「碰巧一致」**:被测侧那时对空输入解密抛 IllegalBlockSizeException,两侧都以 CryptoException 收场 —— 一致,但两个理由。M3q 把空输入那一位按真身修对(`doFinal(new byte[0])` 交空数组)之后,这条藏在下面的环境差才露出来。"
+ },
+ {
+  "id": "js-lc-shadow-object-keys",
+  "reason": "**被测侧是超集**:`with (javaImport)` 里 `java.lang.Object` 把 JS 的 `Object` 遮住了,于是裁判跑 `Object.keys(...)` 撞的是「java.lang.Object 没有名为 keys 的方法」(Rhino 的 InternalError);被测侧的 JavaImporter 只在 `java.lang` 里放了 `String`(那条是**必须**遮的:`String(byte[])` 是解码),`Object` 不遮,于是照跑。语料 1704 源里在 with 块里写 `Object.keys` 的 **5 个源** —— 复刻裁判等于让这 5 个源在 Rubato 上也失效,而且失效的样子是「书源作者没想到的 Rhino 怪癖」。台账 `liveconnect` 面的 `Object` 一行指着这条。"
+ },
+ {
+  "id": "js-lc-shadow-date-getfullyear",
+  "reason": "同上,`java.util.Date` 遮掉 JS 的 `Date`:`new Date().getFullYear` 在裁判那边是 **undefined**(java.util.Date 只有 `getYear`),被测侧是 function。语料里在 with 块里 `new Date()` 的 **1 个源**(它同时也是「摸时钟」那一档,四步语料本来就把它整条剔除)。台账 `liveconnect` 面的 `Date` 一行指着这条。"
+ }
+]

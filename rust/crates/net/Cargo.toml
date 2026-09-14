@@ -1,0 +1,33 @@
+[package]
+name = "net"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+serde_json.workspace = true
+rubato-core = { path = "../rubato-core" }
+rule-syntax = { path = "../rule-syntax" }
+# BackstageWebView 的 sourceRegex/overrideUrlRegex 是 **Java 正则整串匹配**
+regex-compat = { path = "../regex-compat" }
+regex = "1"
+# data URI 的 `java.util.Base64.getMimeDecoder()` 面(预处理后走通用引擎)
+base64 = "0.22"
+# 链接 option 的 charset(gbk/big5/gb18030…)
+encoding_rs = "0.8"
+# EncodingDetect 的 meta charset 判定走 jsoup 兼容层
+html-compat = { path = "../html-compat" }
+# okhttp `toCanonicalHost` 的 IDN 面:UTS-46 映射 + NFC + punycode
+# (okhttp 自己带一张 IDNA_MAPPING_TABLE,这里用同一份 Unicode 数据的实现)
+idna = "1.1.0"
+# 产品侧真实传输(feature `live`);差分侧不编译它
+reqwest = { version = "0.12", default-features = false, features = [
+    "blocking", "rustls-tls-webpki-roots", "gzip", "deflate", "brotli",
+], optional = true }
+
+[features]
+default = []
+live = ["dep:reqwest"]
+
+[lints]
+workspace = true

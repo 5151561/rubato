@@ -1,0 +1,37 @@
+[package]
+name = "engine"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+rubato-core = { path = "../rubato-core" }
+pipeline = { path = "../pipeline" }
+# 发现分类那条路借 AnalyzeRule 的**元素表**(LiveConnect 的 org.jsoup.*),
+# 见 Engine::explore_kinds
+rule-engine = { path = "../rule-engine" }
+net = { path = "../net", features = ["live"] }
+# 阅读排版:文档模型与分页器(纯函数,不依赖网络/库/FFI)
+reader-doc = { path = "../reader-doc" }
+reader-layout = { path = "../reader-layout" }
+store = { path = "../store" }
+js-host = { path = "../js-host" }
+serde_json.workspace = true
+
+[lints]
+workspace = true
+
+# probe / probe_deep 是手动联网探针,不是差分也不是测试。
+# 但 cargo test / cargo build --workspace 默认会把 examples 一并编出来验证可编译,
+# 每份是 39M 的 debug 二进制,旧 hash 还永不回收(实测 examples/ 堆到 1.1G + 0.44G dSYM)。
+# 挂 required-features 后它们退出默认构建,要跑时显式加 --features probes。
+[features]
+probes = []
+
+[[example]]
+name = "probe"
+required-features = ["probes"]
+
+[[example]]
+name = "probe_deep"
+required-features = ["probes"]

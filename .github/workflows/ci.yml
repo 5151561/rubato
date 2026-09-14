@@ -1,0 +1,92 @@
+# 差分 CI。plan §4 的 Phase 2 判据里写着「差分 CI 常绿」—— 在这个文件出现之前,
+# 十五套差分全靠手跑,改 A 套时 B 套回归了没人知道。
+#
+# 两个 job:
+#  - `rust`  纯 Rust,几分钟,每次推送都跑;
+#  - `diff`  要 JDK 21 + Android SDK(裁判 `:engine` 是 android-library 模块)
+#            + 网络(Maven 依赖),慢,但它才是真判据。
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rust:
+    name: cargo fmt + build + test
+    runs-on: ubuntu-latest
+    # 放在 job 级:build 与 test 用同一套 flag,不然 rust-cache 会因 flag 不同重编一遍
+    env:
+      RUSTFLAGS: -D warnings
+    steps:
+      - uses: actions/checkout@v4
+      # 差分脚本都是 #!/bin/zsh(用了 zsh 的数组语法)
+      - run: sudo apt-get update && sudo apt-get install -y zsh
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: rust
+      # 生成物不入库:跑完全部生成器,工作区必须还是干净的。
+      # 放在这一 job 里是因为它只要 python3,几秒钟就出结果 —— 而它抓的那一类
+      # (入库的生成物和生成器悄悄漂)会让**判据本身**失真,见脚本头注释。
+      - run: tools/check_generated.sh
+        shell: zsh {0}
+      # 移植对照台账(plan §4 的第三条判据)。它拦的是「真身有而台账没有」——
+      # 而没人跑的判据一定会漂:M3q 那条豁免比它的理由多活了两个里程碑,
+      # 就是因为没有任何东西每轮问一遍「这一面今天是什么状态」。
+      # 只要几秒(纯 python + 语料),和上面那道闸同一 job。
+      - run: python3 tools/port_audit.py --check
+      # 格式与警告这两道闸是 2026-08-30 那次全量格式化之后立起来的:
+      # 在那之前 64 个文件不是 fmt-clean、构建有 16 条警告,闸立不起来。
+      # 手排的表(标签表 / 实体表 / charset 探测表)带 `#[rustfmt::skip]`。
+      # `--all`:根 Cargo.toml 是虚拟 workspace,不带它 cargo fmt 找不到 target
+      - run: cargo fmt --manifest-path rust/Cargo.toml --all --check
+      # `--all-targets`:不带它就不编译 tests/examples,那里的警告漏得掉
+      - run: cargo build --workspace --all-targets --manifest-path rust/Cargo.toml
+      # clippy 闸(2026-08-30 立起,当时全仓清零)。三条全局豁免及理由见
+      # rust/Cargo.toml 的 [workspace.lints.clippy];RUSTFLAGS -D warnings
+      # 在 job 级,clippy 警告同样挡合入。复用 build 的编译产物,增量很快。
+      - run: cargo clippy --workspace --all-targets --manifest-path rust/Cargo.toml
+      # 纯函数面的单测(xpath-compat / json-compat / rubato-core / js-host 的闸)。
+      # 它们不需要 JVM —— 差分套要,所以这一 job 是「几分钟内知道有没有砸锅」的那道。
+      - run: cargo test --workspace --manifest-path rust/Cargo.toml
+
+  diff:
+    name: 差分十六套
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: rust
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+      # 裁判的 :engine 是 android-library 模块(compileSdk 见 judge/engine/build.gradle.kts)
+      - run: sdkmanager --install "platforms;android-37" "build-tools;36.0.0"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          build-root-directory: judge
+      # zsh:差分脚本都是 #!/bin/zsh(用了 zsh 的数组语法)
+      - run: sudo apt-get update && sudo apt-get install -y zsh
+      - name: 全部差分套
+        run: tools/all_diff.sh --show=10
+      - name: 失败时留下两侧输出
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diff-outputs
+          path: /tmp/rubato-diff-*/
+          if-no-files-found: ignore

@@ -1,0 +1,15 @@
+[package]
+name = "html-format"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+# 段落正则全部走 java 方言
+regex-compat = { path = "../regex-compat" }
+# AnalyzeUrl.paramPattern 切 `,{option}`
+net = { path = "../net" }
+rubato-core = { path = "../rubato-core" }
+
+[lints]
+workspace = true

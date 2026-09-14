@@ -1,0 +1,6 @@
+[
+  {
+    "fields": {"id": "ex-js-number"},
+    "reason": "**Rhino 对整数字面量装箱成 Integer**:`@js:1` 的完成值在裁判那边是 `java.lang.Integer`,`toString()` 给 \"1\";而 `@js:2.0` / `@js:4/2` / `@js:2147483648` 都是 Double(\"2.0\" / \"2.0\" / \"2.147483648E9\",两侧一致 —— 探针 ex-js-number-{double,integral-double,div,big} 就是钉这四条的)。被测侧的完成值只有一个 f64,分不出「这个 1 是字面量还是算出来的」;而 quickjs 自己的 int/float 标记与 Rhino 的**不是同一套**(`4/2` 在 quickjs 那边是 int,照它反而更错)。语料 1704 源里发现规则的 JS 末句返回裸数字的:**0 条**(19 条 JS 发现规则末句都是 `JSON.stringify(…)` / `join(…)` 之类的串)。**这条探针留着**:哪天真有书源返回裸整数,它就是要还的账。"
+  }
+]

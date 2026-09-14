@@ -1,0 +1,2 @@
+// from: 🗒 十八禁漫 .ruleExplore.bookList
+eval(function(p,a,c,k,e,r){e=function(c){return c.toString(a)};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('3(4(5.6));1==7?0.8(".9 a"):0.b("\\c\\2\\d\\e\\f\\g\\h\\2");',18,18,'java||u2757|eval|String|source|bookSourceComment|flag|getElements|liemh|li|toast|n|u672a|u542f|u7528|u4e66|u6e90'.split('|'),0,{}))

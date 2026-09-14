@@ -1,0 +1,20 @@
+[package]
+name = "xpath-compat"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+# JsoupXpath 跑在 jsoup 树上:选择器、text()/html() 序列化都借 html-compat 那一份
+html-compat = { path = "../html-compat" }
+# AnalyzeByXPath 自己的 &&/||/%% 切分走 RuleAnalyzer
+rule-syntax = { path = "../rule-syntax" }
+# ~= / !~ 是 java.util.regex 的 matches()(整串匹配)
+regex-compat = { path = "../regex-compat" }
+# Java Double.toString 的唯一一份实现(本 crate 自己那份曾漏掉科学计数一支)
+rubato-core = { path = "../rubato-core" }
+ego-tree = "0.11.0"
+scraper = { version = "0.27.0", features = ["deterministic"] }
+
+[lints]
+workspace = true

@@ -1,0 +1,20 @@
+[package]
+name = "rule-engine"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+serde_json.workspace = true
+rubato-core = { path = "../rubato-core" }
+rule-syntax = { path = "../rule-syntax" }
+html-compat = { path = "../html-compat" }
+xpath-compat = { path = "../xpath-compat" }
+json-compat = { path = "../json-compat" }
+regex-compat = { path = "../regex-compat" }
+ego-tree = "0.11.0"
+scraper = { version = "0.27.0", features = ["deterministic"] }
+regex = "1"
+
+[lints]
+workspace = true

@@ -1,0 +1,2 @@
+// from: 八一中文 .searchUrl
+url="https://m.81zw2.com/search.php,{'body':'keyword={{key}}','method':'POST','headers':{'User-Agent':'Mozilla/5.0 (Linux; Android 12; Nexus 5X Build/NRD90M); wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/115.0.4664.104 Mobile Safari/537.36','Referer':'https://m.81zw2.com/'}}";if(java.ajax(url).match(/^<!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</)){java.longToast('请根据网页提示点击勾选「确认您是真人」来通过人机验证，如果无限循环请查看源注释说明。');java.startBrowserAwait(url,'人机验证');};result=url;

@@ -1,0 +1,30 @@
+// 差分垫片:utils/FlowExtensions.kt 的 mapAsync(逐字复刻;真身文件带 lifecycle 依赖)
+@file:Suppress("unused")
+
+package io.legado.app.utils
+
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.sync.Semaphore
+
+inline fun <T, R> Flow<T>.mapAsync(
+    concurrency: Int,
+    crossinline transform: suspend (T) -> R
+): Flow<R> = if (concurrency == 1) {
+    map { transform(it) }
+} else {
+    Semaphore(concurrency).let { semaphore ->
+        channelFlow {
+            collect {
+                semaphore.acquire()
+                send(async { transform(it) })
+            }
+        }.map {
+            it.await()
+        }.onEach { semaphore.release() }
+    }.buffer(0)
+}

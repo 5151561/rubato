@@ -1,0 +1,13 @@
+[package]
+name = "regex-compat"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# 锁 0.14:0.19 重构后不再把纯正则委托给 regex crate,自带 VM 存在量词回溯
+# bug(`x+z?x+` 能匹配单个 "x",差分 r01700 系列抓出);0.14 委托架构行为正确。
+# 升级前必须重跑 tools/regex_diff.sh 验证。
+fancy-regex = "=0.14.0"
+
+[lints]
+workspace = true

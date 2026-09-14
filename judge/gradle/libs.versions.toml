@@ -1,0 +1,91 @@
+[versions]
+agp = "9.2.1"
+kotlin = "2.4.0"
+composeBom = "2026.06.01"
+material3 = "1.5.0-alpha23"
+materialKolor = "4.1.1"
+activity = "1.13.0"
+core = "1.19.0"
+lifecycle = "2.11.0"
+coroutines = "1.11.0"
+kotlinxSerializationJson = "1.11.0"
+kotlinxCollectionsImmutable = "0.5.1"
+navigation3 = "1.1.4"
+# 覆盖 navigation3 1.1.4 传递依赖的 1.1.2：预测式返回手势对已分离输入抛
+# IllegalStateException 的崩溃在 1.2.0-alpha02 才修复。上游稳定版发布后可移除。
+navigationevent = "1.2.0-alpha02"
+koin-bom = "4.2.2"
+junit = "4.13.2"
+# —— 书源引擎(从 legado-with-MD3 vendor)——
+rhino = "1.8.1"
+# LegadoTeam 定制 rhino(仓库内置 maven:judge/third_party/maven)
+htmlunitCoreJs = "5.3.0-legado.4"
+collection = "1.6.0"
+okhttp = "5.4.0"
+# issue #3811:不要更新 jsoup,新版有破坏性变更(jsoup PR #2017),AnalyzeByJSoup 和 JsoupXpath 依赖旧行为
+jsoup = "1.16.2"
+jsoupxpath = "2.5.3"
+jsonPath = "3.0.0"
+gson = "2.14.0"
+hutool = "5.8.22"
+commonsText = "1.15.0"
+splitties = "3.0.0"
+room = "2.8.4"
+libarchive = "1.1.6"
+quickChineseTransfer = "0.2.17"
+ksp = "2.3.6"
+
+[libraries]
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui" }
+androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
+androidx-compose-animation = { module = "androidx.compose.animation:animation" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycle" }
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
+androidx-navigationevent-compose = { module = "androidx.navigationevent:navigationevent-compose", version.ref = "navigationevent" }
+material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
+koin-android = { group = "io.insert-koin", name = "koin-android" }
+koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel" }
+junit = { module = "junit:junit", version.ref = "junit" }
+mozilla-rhino = { module = "org.mozilla:rhino", version.ref = "rhino" }
+htmlunit-core-js = { module = "org.htmlunit:htmlunit-core-js", version.ref = "htmlunitCoreJs" }
+hutool-core = { module = "cn.hutool:hutool-core", version.ref = "hutool" }
+hutool-crypto = { module = "cn.hutool:hutool-crypto", version.ref = "hutool" }
+androidx-collection = { module = "androidx.collection:collection", version.ref = "collection" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
+jsoupxpath = { module = "cn.wanghaomiao:JsoupXpath", version.ref = "jsoupxpath" }
+json-path = { module = "com.jayway.jsonpath:json-path", version.ref = "jsonPath" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+commons-text = { module = "org.apache.commons:commons-text", version.ref = "commonsText" }
+splitties-appctx = { module = "com.louiscad.splitties:splitties-appctx", version.ref = "splitties" }
+splitties-systemservices = { module = "com.louiscad.splitties:splitties-systemservices", version.ref = "splitties" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+libarchive = { module = "me.zhanghai.android.libarchive:library", version.ref = "libarchive" }
+quick-chinese-transfer = { module = "com.github.liuyueyi.quick-chinese-transfer:quick-transfer-core", version.ref = "quickChineseTransfer" }
+androidx-annotation = { group = "androidx.annotation", name = "annotation", version = "1.10.0" }
+androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version = "1.1.0" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

@@ -1,0 +1,14 @@
+[package]
+name = "json-compat"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+serde_json.workspace = true
+rule-syntax = { path = "../rule-syntax" }
+# Java Double.toString 的唯一一份实现
+rubato-core = { path = "../rubato-core" }
+
+[lints]
+workspace = true

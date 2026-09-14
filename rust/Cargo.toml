@@ -1,0 +1,36 @@
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.package]
+edition = "2024"
+license = "GPL-3.0"
+
+# clippy 全量开着,只放过三类(理由,不是偷懒):
+# - collapsible_if:移植代码的嵌套结构对着 Kotlin 真身逐行可核对,拍平伤审计;
+# - too_many_arguments / type_complexity:函数面与返回形态照真身的签名,
+#   为凑 lint 拆结构体反而让「这行对应 AnalyzeRule 哪一行」难回答。
+# 新写的非移植代码不受此豁免的保护伞误导:能收就收。
+[workspace.lints.clippy]
+collapsible_if = "allow"
+too_many_arguments = "allow"
+type_complexity = "allow"
+
+[workspace.dependencies]
+# preserve_order:对齐 jayway(json-smart 的 LinkedHashMap),对象键序影响 toString 渲染与遍历序
+serde_json = { version = "1", features = ["preserve_order"] }
+# 公共后缀表(cookie 的二级域名键与 domain 校验;对齐 okhttp PublicSuffixDatabase)
+psl = "2"
+
+# 调试信息瘦身:macOS 默认 split-debuginfo="unpacked",会在 target/debug/deps 下
+# 散落十万级 .o 文件且 cargo 从不回收(实测占 3.6G)。packed 汇总进 .dSYM;
+# line-tables-only 保留 backtrace 的文件名与行号,砍掉变量类型等重量级 DWARF。
+[profile.dev]
+debug = "line-tables-only"
+split-debuginfo = "packed"
+
+# 第三方依赖不带调试信息:deps 下 598 个 rlib 绝大多数是依赖,
+# 且 packed 会为每个二进制生成 .dSYM(实测合计 1.52G)。
+# workspace 成员不受影响,仍保留 line-tables-only 的 backtrace 行号。
+[profile.dev.package."*"]
+debug = false

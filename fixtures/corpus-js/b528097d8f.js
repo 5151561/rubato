@@ -1,0 +1,4 @@
+// from: 青羽阅读 .ruleExplore.bookUrl
+b='{{$.book_id}}';
+h=Math.round(new Date()/1000);
+t="i3aphc4zg3hmmcq0appId=&book_id="+b+"&marketChannel=none&osType=2&packageName=com.qingyuleku.app&product=1&sysVer=7.1.2&time="+h+"&token=&udid=16d08bd9-c2fc-396c-9b4b-b6bacea7cff2&ver=3.5.08je1sc1htum1hvutpso79oigrx8pv2gx";u=java.md5Encode(t).toUpperCase();time=Math.round(new Date()/1000);body={"sign":u,"book_id":{{$.book_id}},"packageName":"com.qingyuleku.app","time":time,"token":"","marketChannel":"none","appId":"","sysVer":"7.1.2","osType":"2","udid":"16d08bd9-c2fc-396c-9b4b-b6bacea7cff2","ver":"3.5.0","product":"1"};option={"method":"POST","body":JSON.stringify(body)};"http://api.kuduwxw.com/book/info,"+JSON.stringify(option);

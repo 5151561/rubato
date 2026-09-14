@@ -1,0 +1,2 @@
+// from: 🎨爱看韩漫🔞 .searchUrl
+eval(function(p,a,c,k,e,r){e=function(c){return c.toString(a)};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('1==3(4.5).6(/7[\\0+]?=[\\0+]?(\\d+)/)[1]?"/8?9={{a}}":b.c("\\e\\2\\f\\g\\h\\i\\j\\2");',20,20,'s||u2757|String|source|bookSourceComment|match|flag|search|keyword|key|java|toast||n|u672a|u542f|u7528|u4e66|u6e90'.split('|'),0,{}))

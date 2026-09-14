@@ -1,0 +1,72 @@
+*.iml
+.gradle/
+.kotlin/
+local.properties
+.idea/
+.DS_Store
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+*.keystore
+*.jks
+
+# Rust
+rust/target/
+
+# 工具产物
+tools/out/
+
+# ──────── 生成物一律不入库 ────────
+# 判据(CI 守着,见 .github/workflows/ci.yml 的「生成物不入库」步):
+#
+#     把 tools/gen_*.py 全跑一遍,`git diff --exit-code` 必须是干净的,
+#     且不能冒出新的未跟踪文件。
+#
+# 为什么要有这条:此前「先入库好 review」和「这是生成物删掉」来回拉锯过四次
+# (d086af6 / dc2f4b3 / e6ee878 / ebd8f17),同一批文件加进来又删掉 ——
+# 因为规则只活在人的脑子里。现在它由 CI 判定,不再靠记。
+#
+# **留在库里的只有「输入」**:fixtures/sources(1704 源语料 8MB)、
+# fixtures/corpus-js(683 段真实书源 JS)、fixtures/pages、fixtures/spike-js、
+# fixtures/http-js-host(手维护的回落页)、fixtures/diff-baseline.json(手维护的
+# 棘轮)、各套的 README.md(契约),以及**手写**的用例/豁免清单。
+# 判别方法就是上面那条判据:跑一遍生成器,被改写的就是产物。
+
+# 用例(corpus/handmade/drift/dsl/generated/名单/生成的豁免清单)
+fixtures/cases/*/corpus.json
+fixtures/cases/*/generated.json
+fixtures/cases/*/handmade.json
+fixtures/cases/*/drift.json
+fixtures/cases/*/dsl.json
+fixtures/cases/js-host/hand.json
+fixtures/cases/js-host/url.json
+fixtures/cases/xpath/01-docs.json
+fixtures/cases/xpath/02-probe.json
+fixtures/cases/xpath/03-corpus.json
+fixtures/cases/explore/01-probe.json
+fixtures/cases/explore/02-corpus.json
+fixtures/cases/top100/selection.json
+fixtures/cases/pipeline-corpus/exemptions.json
+fixtures/cases/pipeline-corpus-b/exemptions.json
+fixtures/cases/top100/exemptions.json
+# Phase 3 的验收清单(tools/gen_phase3_checklist.py 从语料重算;口径在 fixtures/phase3/README.md)
+fixtures/phase3/checklist.json
+# 逐源验收的报告(那条线跑在 Flutter 集成测试里,已随前端于 2026-09-14 移除;
+# 留着这条是因为旧报告可能还躺在工作区里,别让它冒出来当未跟踪文件)
+fixtures/phase3/acceptance.json
+# **手写**的那几份豁免/用例要留(生成器不碰它们):
+!fixtures/cases/regex-compat/handmade.json
+!fixtures/cases/rule-syntax/handmade.json
+
+# HTTP 快照:合成的那几套是生成物(gen_fetch / gen_pipeline /
+# gen_pipeline_corpus 各自 rmtree 再重建),http-js-host 是手维护的,留。
+fixtures/http/
+fixtures/http-pipeline/
+fixtures/http-pipeline-corpus/
+fixtures/http-pipeline-corpus-b/
+fixtures/http-top100/
+
+# Python
+__pycache__/
+*.pyc

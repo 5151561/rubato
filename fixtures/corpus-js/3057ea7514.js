@@ -1,0 +1,2 @@
+// from: 起点中文网💰 .ruleSearch.wordCount
+var 巧=['replace','$1.$2万','$1000','$1字'];(function(华,康){var 博=function(栀){while(--栀){华['push'](华['shift']());}};博(++康);}(巧,0x114));var 华=function(石,节){石=石-0x0;var 康=巧[石];return 康;};String(result)['replace'](/[^,]*[:：]/,'')['replace'](/(\d)k/i,华('0x2'))[华('0x0')](/(\d+)(\d)\d{7}/g,'$1.$2亿')[华('0x0')](/(\d+)(\d)\d{3}/g,华('0x1'))[华('0x0')](/\.0([万亿])/g,'$1')['trim']()['replace'](/([\d万亿])字?$/,华('0x3'));

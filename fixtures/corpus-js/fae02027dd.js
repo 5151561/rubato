@@ -1,0 +1,12 @@
+// from: 格格党[rdq] .ruleBookInfo.lastChapter
+result.replace(/^(\d+)、第.+章/,'第$1章')
+.replace(/^(\d+)、\d+、/,'第$1章 ')
+.replace(/^(\d+)、\d+/,'第$1章')
+.replace(/^(第.+章)\s?\d+\s/,'$1 ')
+.replace(/^(\d+)(、|. ?)/,'第$1章 ')
+.replace(/^(第.+章)\s?第.+章/,'$1')
+.replace(/第\s(.+)\s章/,'第$1章')
+.replace(/.*(chapter|Chapter)\s?(\d+)\s?/,'$1 $2 ')
+.replace(/(章)([^\s]+)(\s·)*/,'$1 $2$3')
+.replace(/第([零一二三四五六七八九十百千]+)章/g,java.toNumChapter(result))
+.replace(/第0+/,'第')

@@ -1,0 +1,6 @@
+[
+ {"fields": {"doc": "wiki", "action": "html"},
+  "reason": "无值属性序列化:html5ever 分词器把 <a data-x> 与 <a data-x=\"\"> 都归一为空串值,jsoup 保留区分(输出 data-x vs data-x=\"\")。解析层信息缺失,序列化无从恢复;wiki 页 data-mw-interface 触发。待上游 html5ever 或自带 tokenizer 补丁"},
+ {"fields": {"doc": "wiki", "action": "outerHtml"},
+  "reason": "同上:无值属性序列化(html5ever 分词层信息缺失)"}
+]

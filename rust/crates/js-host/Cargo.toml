@@ -1,0 +1,35 @@
+[package]
+name = "js-host"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+base64 = "0.23.1"
+hex = "0.4.3"
+md-5 = "0.11.0"
+rquickjs = { version = "0.12.2", features = ["bindgen"] }
+serde_json.workspace = true
+rubato-core = { path = "../rubato-core" }
+# java.encodeURI 走 net 的 URLEncoder 移植(net 不依赖 js-host,无环)
+net = { path = "../net" }
+# java.timeFormat / timeFormatUTC:Java 的 SimpleDateFormat 子集 + 默认时区
+chrono = { version = "0.4", default-features = false, features = ["std", "clock"] }
+# java.htmlFormat:HtmlFormatter 与 pipeline 共用同一份(下沉成 crate)
+html-format = { path = "../html-format" }
+# base64Decode(str, charset) / strToBytes 的字符集面
+encoding_rs = "0.8"
+# JsEncodeUtils 的对称加密面(aes* / des* 家族)
+# 分组密码本体 + BlockCipherEncrypt/Decrypt 这组 trait
+cipher = "0.5.0"
+aes = "0.9.0"
+des = "0.9.0"
+sha1 = "0.11.0"
+# LiveConnect 的 RSA 一支(java.security 的 KeyFactory / Signature):
+# PKCS#8 私钥 + PKCS#1 v1.5 签名。语料 2 个源(西瓜小说)靠它算 sign 头。
+rsa = { version = "0.9", default-features = false, features = ["std"] }
+sha2 = "0.11.0"
+# java.randomUUID 的产品侧熵源(差分侧走 RandomSource::Difftest,不碰它)
+getrandom = "0.3"
+
+[lints]
+workspace = true

@@ -1,0 +1,29 @@
+[package]
+name = "difftest"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+serde_json.workspace = true
+rule-syntax = { path = "../rule-syntax" }
+json-compat = { path = "../json-compat" }
+rubato-core = { path = "../rubato-core" }
+rule-engine = { path = "../rule-engine" }
+net = { path = "../net" }
+regex-compat = { path = "../regex-compat" }
+fancy-regex = "0.14"
+regex = "1"
+html-compat = { path = "../html-compat" }
+xpath-compat = { path = "../xpath-compat" }
+scraper = { version = "0.27.0", features = ["deterministic"] } # 保属性插入序(对齐 jsoup 源序输出)
+# HTTP 录放:快照 key(SHA-256)与 body base64
+sha2 = "0.10"
+base64 = "0.22"
+store = { path = "../store" }
+pipeline = { path = "../pipeline" }
+# js-host 差分(js_case_runner):被测侧的真 JS 引擎
+js-host = { path = "../js-host" }
+
+[lints]
+workspace = true

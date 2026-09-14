@@ -1,0 +1,2 @@
+// from: 🎨 UU韩漫 .searchUrl
+eval(function(p,a,c,k,e,r){e=function(c){return c.toString(a)};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('3(4(5.6));0="{{7}}";1==8?9+"/a/b/{{(c-1)*d}}?e="+0:f.g("\\h\\2\\i\\j\\k\\l\\m\\2");',23,23,'body||u2757|eval|String|source|bookSourceComment|key|flag|host|search|index|page|10|keywords|java|toast|n|u672a|u542f|u7528|u4e66|u6e90'.split('|'),0,{}))

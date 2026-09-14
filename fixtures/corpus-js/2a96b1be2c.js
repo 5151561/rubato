@@ -1,0 +1,2 @@
+// from: 🔰 晨曦小说 .ruleBookInfo.lastChapter
+result.replace(/^(\d+)、第.+章/,'第$1章').replace(/^(\d+)、\d+、/,'第$1章 ').replace(/^(\d+)、\d+/,'第$1章').replace(/^(第.+章)\s?\d+/,'$1').replace(/^(\d+)、/,'第$1章 ').replace(/^(第.+章)\s?第.+章/,'$1').replace(/第\s(.+)\s章/,'第$1章').replace(/.*(chapter|Chapter)\s?(\d+)\s?/,'$1 $2 ').replace(/，|\[/,'').replace(/\(.+\)/,'').replace(/\s*……/,'').replace(/\s*。/,'').replace(/……/,'')

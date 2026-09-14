@@ -1,0 +1,2 @@
+// from: 🎨爱看韩漫🔞 .ruleToc.chapterList
+eval(function(p,a,c,k,e,r){e=function(c){return c.toString(a)};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('1==4(5.6).7(/8[\\2+]?=[\\2+]?(\\d+)/)[1]?(0.9("b",1),0.c(".e-f-g h a")):0.i("\\n\\3\\j\\k\\l\\m\\o\\3");',25,25,'java||s|u2757|String|source|bookSourceComment|match|flag|put||Enable|getElements||view|win|list|li|toast|u672a|u542f|u7528|u4e66||u6e90'.split('|'),0,{}))

@@ -1,0 +1,20 @@
+// from: ㊝豆瓣读书▪︎书评 #关耳 .ruleToc.nextTocUrl
+list=[];
+if(!(baseUrl.match(/series/)||baseUrl.match(/ebook/)||baseUrl.match(/comments/))){
+if(baseUrl.match(/author/)){
+if(result.match(/class="count">\(共(\d+)条\)/)){
+count=result.match(/class="count">\(共(\d+)条\)/)[1];
+page=parseInt(count/10);
+for(i=0;i<page;i++){
+list.push(baseUrl+'&start='+(i*10))
+}}}else{
+if(result.match(/data-total-page="([^"]+)">/)){
+p=result.match(/data-total-page="([^"]+)">/)[1];
+page=20;
+if(p<page){
+page=p
+}
+for(i=1;i<=page;i++){
+list.push(baseUrl+'?start='+((i-1)*20))
+}}}}
+list

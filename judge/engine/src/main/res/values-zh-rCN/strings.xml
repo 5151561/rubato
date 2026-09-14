@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_get_web_content">访问网站失败: %s</string>
+    <string name="chapter_list_empty">目录列表为空</string>
+</resources>

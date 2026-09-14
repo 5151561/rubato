@@ -1,0 +1,62 @@
+// from: 🐑知乎文学 .ruleToc.chapterList
+list=[]
+li=book.intro
+li=li.replace(",","")
+java.log(li)
+a="https://zhihuwenxue.com"
+
+if(li==""){
+dyz=java.getString("text.开始阅读@href")
+d=a+dyz
+
+for(i=0;i<10;i++){
+	if(list.length>0){
+		d=a+c
+		}
+	f=java.ajax(d)
+	java.setContent(f)
+	c=java.getString("text.下一页.0@href||text.下一章.0@href")
+	g=java.getString("id.acontent@tag.h1@text")
+	if(i==0){
+	list[i]="<div>第00001章"+g+"</div><p>"+d+"</p>\n"
+	}else{
+		list[i]="<div>"+g+"</div><p>"+d+"</p>\n"
+		}
+	//java.log(list[i])
+	}
+}
+if(li != ""){
+	list=li.match(/.*?\n/gi)
+	s=list.length-1
+	e=list[s].match(/<p>.*?<\/p>/gi)[0]
+	
+	e=e.replace("<p>","")
+	e=e.replace("</p>","")
+	s=0
+	lis=[]
+	for(i=0;i<11;i++){
+	if(s==0){
+		s=s+1
+		}else{
+			e=a+c
+			}
+	f=java.ajax(e)
+	java.setContent(f)
+	c=java.getString("text.下一页.0@href||text.下一章.0@href")
+	if(i!=0){
+	g=java.getString("id.acontent@tag.h1@text")
+	if(g!=""){
+	lis[i-1]="<div>"+g+"</div><p>"+e+"</p>\n"
+	}else{
+		break
+		}
+   }
+	}
+	for(i=0;i<lis.length;i++){
+		list[list.length]=lis[i]
+		}
+	}
+book.intro=String(list)
+book.upCustomIntro()
+//java.toast(list.length)
+list

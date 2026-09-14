@@ -1,0 +1,2 @@
+// from: 🗒 夜色韩漫 .ruleContent.content
+eval(function(p,a,c,k,e,r){e=function(c){return c.toString(a)};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('1==0.3("4")?"<5>"+0.6("7"):0.8("\\9\\2\\a\\b\\c\\d\\e\\2");',15,15,'java||u2757|get|Enable|br|getElements|img|toast|n|u672a|u542f|u7528|u4e66|u6e90'.split('|'),0,{}))

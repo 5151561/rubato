@@ -1,0 +1,6 @@
+[
+ {"fields": {"doc": "wiki"},
+  "reason": "无值属性序列化:html5ever 分词器把 <a data-x> 与 <a data-x=\"\"> 都归一为空串值,jsoup 保留区分。与 html-compat 套同一条已知近似(解析层信息缺失,序列化无从恢复);wiki 页 data-mw-interface 触发"},
+ {"fields": {"note": "以 <?xml 开头 → xmlParser"},
+  "reason": "strToJXDocument 对 <?xml 开头的内容走 Parser.xmlParser();html-compat 只有 HTML 解析器(plan §1 明写解析树只留 html5ever 一份)。XML 内容会被套上 html/head/body 且 <link> 被当空元素。语料里没有规则依赖这条(该分支由**内容**触发而非规则),故留豁免而不是再引一个 XML 解析器"}
+]

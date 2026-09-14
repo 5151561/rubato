@@ -1,0 +1,2 @@
+// from: 💰长河阅读[api] .ruleToc.chapterUrl
+'https://changheapi.chzww.cn/Booklibrary/readchapter,{"method":"POST","body":{"BookID":@get:{bid},"UserID":-1,"chapter_id":{{$.id}},"isDevice":"Android","isMarket":"true","regDevice":2,"sign":"'+String(java.md5Encode('BookID=@get:{bid}&UserID=-1&chapter_id={{$.id}}&isDevice=Android&isMarket=true&regDevice=2&key=87ac02d392a8d3566fe7748c8de00af3&secrect=57dcuidu8aa8062bfe8042ea65310669').toUpperCase())+'"}}'
